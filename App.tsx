@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ScrollView, SafeAreaView, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, SafeAreaView, ActivityIndicator, Image, TouchableOpacity } from 'react-native';
 import News from './src/components/News';
 
 import { fetchNewsService, NewsData } from './src/utils/handle-api';
@@ -9,6 +9,7 @@ export default function App() {
   const [newsList, setNewsList] = useState<NewsData[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+    const totalItens = newsList.flat().length; 
 
   useEffect(() => {
     fetchNews();
@@ -31,7 +32,12 @@ export default function App() {
       <StatusBar style="dark" />
       
       <View style={styles.header}>
+        <Image style={styles.iconHeader} source={require("./assets/newspaper-banner.png")}/>
         <Text style={styles.headerTitle}>Últimas notícias</Text>
+        <TouchableOpacity style={styles.updatePage}>
+          Atualizar Página
+        </TouchableOpacity>
+
       </View>
 
       {loading ? (
@@ -45,6 +51,11 @@ export default function App() {
         </View>
       ) : (
         <ScrollView contentContainerStyle={styles.scrollContent}>
+          <View>
+            <Text style={styles.qtNews}> 
+              {totalItens} Novas notícias
+            </Text>
+          </View>
           {newsList.map((item) => (
             <News
               key={item.id.toString()}
@@ -77,6 +88,11 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: 'bold',
   },
+  iconHeader: {
+    width: 60,
+    height: 60,
+    marginBottom: 10
+  },
   centerContainer: {
     flex: 1,
     justifyContent: 'center',
@@ -94,4 +110,16 @@ const styles = StyleSheet.create({
   scrollContent: {
     padding: 16,
   },
+  updatePage: {
+    fontSize: 13,
+    color: "gray",
+    marginTop: 5,
+    borderBottomColor: "gray"
+  },
+  qtNews: {
+    textAlign: "center",
+    fontSize: 16,
+    marginBottom: 10,
+    fontWeight: 600
+  }
 });
