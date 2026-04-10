@@ -34,7 +34,7 @@ export default function App() {
       <View style={styles.header}>
         <Image style={styles.iconHeader} source={require("./assets/newspaper-banner.png")}/>
         <Text style={styles.headerTitle}>Últimas notícias</Text>
-        <TouchableOpacity style={styles.updatePage}>
+        <TouchableOpacity style={styles.updatePage} onPress={() => fetchNews()}>
           Atualizar Página
         </TouchableOpacity>
 
